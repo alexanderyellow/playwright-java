@@ -1,0 +1,5 @@
+tasks.register("installPlaywrightBrowsers", JavaExec) {
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass = "com.microsoft.playwright.CLI"
+    args = listOf("install", "--with-deps")
+}

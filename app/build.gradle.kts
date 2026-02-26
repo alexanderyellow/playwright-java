@@ -49,4 +49,23 @@ application {
 
 tasks.named<Test>("test") {
     systemProperty("java.io.tmpdir", layout.buildDirectory.dir("tmp").get().asFile.absolutePath)
+    
+    // Enable JUnit Jupiter parallel execution for Playwright tests
+    systemProperty("junit.jupiter.execution.parallel.enabled", "true")
+    systemProperty("junit.jupiter.execution.parallel.mode.default", "concurrent")
+    systemProperty("junit.jupiter.execution.parallel.mode.classes.default", "concurrent")
+
+    // Show standard out/err and test events
+    testLogging {
+        showStandardStreams = true
+        events("passed", "skipped", "failed")
+    }
+}
+
+tasks.register<JavaExec>("playwrightInstall") {
+    group = "verification"
+    description = "Download Playwright browsers and dependencies."
+    classpath = sourceSets["test"].runtimeClasspath
+    mainClass = "com.microsoft.playwright.CLI"
+    args("install", "--with-deps")
 }
