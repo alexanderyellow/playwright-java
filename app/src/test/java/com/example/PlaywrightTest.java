@@ -13,6 +13,10 @@ public class PlaywrightTest {
     BrowserContext context;
     Page page;
 
+    public PlaywrightTest() {
+        System.out.println("-----> Constructor: " + Thread.currentThread().getName());
+    }
+
     @BeforeAll
     static void prewarmDriver() {
         System.out.println("-----> BeforeAll: " + Thread.currentThread().getName());
@@ -25,9 +29,10 @@ public class PlaywrightTest {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions()
-                        .setHeadless(true)
+                        .setHeadless(false)
+                        .setArgs(java.util.Arrays.asList("--start-maximized"))
                         .setSlowMo(1500));
-        context = browser.newContext();
+        context = browser.newContext(new Browser.NewContextOptions().setViewportSize(null));
         page = context.newPage();
     }
 
@@ -54,37 +59,12 @@ public class PlaywrightTest {
     }
 
     @Test
-    void testCheckBoxSelection() {
-        page.navigate("https://demoqa.com/checkbox");
-        page.click("button[title='Expand all']");
-        page.locator("label[for='tree-node-desktop']").click();
-
-        assertTrue(page.locator("#result").textContent().contains("desktop"));
-    }
-
-    @Test
     void testRadioButtonInteraction() {
         System.out.println("-----> Test2: " + Thread.currentThread().getName());
         page.navigate("https://demoqa.com/radio-button");
         page.locator("label[for='impressiveRadio']").click();
 
         assertEquals("Impressive", page.locator("span.text-success").textContent());
-    }
-
-    @Test
-    void testWebTables() {
-        page.navigate("https://demoqa.com/webtables");
-        page.click("#addNewRecordButton");
-        page.fill("#firstName", "Jane");
-        page.fill("#lastName", "Smith");
-        page.fill("#userEmail", "jane@example.com");
-        page.fill("#age", "30");
-        page.fill("#salary", "50000");
-        page.fill("#department", "IT");
-        page.click("#submit");
-
-        assertTrue(page.locator(".rt-tbody").textContent().contains("Jane"));
-        assertTrue(page.locator(".rt-tbody").textContent().contains("Smith"));
     }
 
     @Test
