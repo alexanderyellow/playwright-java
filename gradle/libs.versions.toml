@@ -1,0 +1,18 @@
+[versions]
+junit = "6.1.0-M1"
+snakeyaml = "2.6"
+playwright = "1.54.0"
+assertj = "3.27.7"
+
+
+[libraries]
+snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
+playwright = { module = "com.microsoft.playwright:playwright", version.ref = "playwright" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
+assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+allure-junit5 = { module = "io.qameta.allure:allure-junit5", version = "2.33.0" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version = "1.5.32" }
+allure-playwright-java = { module = "io.github.uchagani:allure-playwright-java", version = "1.1.0" }
