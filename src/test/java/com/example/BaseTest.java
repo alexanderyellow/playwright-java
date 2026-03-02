@@ -1,16 +1,13 @@
 package com.example;
 
 import com.example.extensions.AllureTestWatcher;
+import com.example.extensions.TraceExtension;
+import com.microsoft.playwright.*;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.junit5.AllureJunit5;
 import org.junit.jupiter.api.*;
 import com.example.config.AppConfig;
 import com.example.config.AppConfigManager;
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
 import org.junit.jupiter.api.extension.Extensions;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -19,11 +16,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Extensions(
-        @ExtendWith({AllureJunit5.class, AllureTestWatcher.class})
+        @ExtendWith({
+                AllureJunit5.class,
+                AllureTestWatcher.class,
+                TraceExtension.class
+        })
 )
-@Timeout(300)
+@Timeout(value = 30, unit = TimeUnit.SECONDS)
 public abstract class BaseTest {
     protected static Playwright playwright;
     protected static Browser browser;
@@ -54,13 +56,26 @@ public abstract class BaseTest {
     @BeforeEach
     void createContextAndPage() {
         context = browser.newContext(new Browser.NewContextOptions().setViewportSize(null));
+
+        // Start recording the trace
+        context.tracing().start(new Tracing.StartOptions()
+                .setScreenshots(true)
+                .setSnapshots(true)
+                .setSources(true));
+
+        // Register the context so the Extension can find it
+        TraceExtension.threadContext.set(context);
+
         page = context.newPage();
     }
 
     @AfterEach
     void closeBrowser() {
         if (page != null) page.close();
-        if (context != null) context.close();
+        if (context != null) {
+            context.close();
+            TraceExtension.threadContext.remove();
+        }
     }
 
     @AfterAll

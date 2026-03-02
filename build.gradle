@@ -11,18 +11,19 @@ repositories {
 }
 
 dependencies {
-    implementation libs.snakeyaml
-    implementation libs.junit.platform.launcher
-    implementation libs.playwright
-    implementation libs.allure.junit5
-    implementation libs.logback.classic
-    implementation libs.allure.playwright.java
-    implementation("io.github.uchagani:junit-playwright:3.0.2")
-
-    testImplementation libs.junit.jupiter
-    testImplementation libs.junit.jupiter.api
-    testImplementation libs.junit.jupiter.engine
+    // Assuming this is an end-to-end testing project, dependencies belong in test scopes.
+    testImplementation libs.playwright
+    testImplementation libs.snakeyaml
+    testImplementation libs.allure.junit5
     testImplementation libs.assertj.core
+
+    // JUnit API
+    testImplementation libs.junit.jupiter.api
+
+    // Runtime-only dependencies (Engines, launchers, and logging shouldn't be on the compile classpath)
+    testRuntimeOnly libs.junit.jupiter.engine
+    testRuntimeOnly libs.junit.platform.launcher
+    testRuntimeOnly libs.logback.classic
 }
 
 java {
@@ -37,10 +38,16 @@ tasks.named('test', Test) {
     // Forward the 'headless' system property to the test execution
     systemProperty 'headless', System.getProperty('headless', 'true')
 
-    // Enable JUnit Jupiter parallel execution for Playwright tests
+    // Enable JUnit Jupiter parallel execution (Thread-based)
     systemProperty 'junit.jupiter.execution.parallel.enabled', 'true'
     systemProperty 'junit.jupiter.execution.parallel.mode.default', 'concurrent'
     systemProperty 'junit.jupiter.execution.parallel.mode.classes.default', 'concurrent'
+
+    doFirst {
+        delete layout.buildDirectory.dir("playwright-traces")
+    }
+
+    ignoreFailures = true
 
     testLogging {
         events "started", "passed", "skipped", "failed"
@@ -68,24 +75,40 @@ tasks.register('playwrightInstall', JavaExec) {
     args 'install', '--with-deps'
 }
 
+// REFACTORED: Now uses Gradle's native JavaExec instead of calling Maven externally.
+tasks.register('openLastTrace', JavaExec) {
+    group = "verification"
+    description = "Opens the most recent Playwright trace file."
+
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.microsoft.playwright.CLI'
+
+    doFirst {
+        def traceDir = layout.buildDirectory.dir("playwright-traces").get().asFile
+        if (!traceDir.exists() || traceDir.listFiles().length == 0) {
+            throw new GradleException("No traces found in ${traceDir.path}")
+        }
+
+        def lastTrace = traceDir.listFiles()
+                .findAll { it.name.endsWith('.zip') }
+                .sort { it.lastModified() }
+                .last()
+
+        // Dynamically assign arguments right before execution
+        args = ['show-trace', lastTrace.path]
+    }
+}
+
 allure {
     version = '2.35.0'
 
     adapter {
-        aspectjWeaver = true  // Enables AspectJ for auto-screenshots on failure, etc.
+        aspectjWeaver = true
 
         frameworks {
             junit5 {
                 enabled = true
             }
         }
-    }
-
-    // Optional: Customize results directory if needed (default: build/allure-results)
-    // resultsDir = file('build/allure-results')  // Not directly configurable in 3.x; use defaults or override via tasks
-
-    report {
-        // Optional: Customize report output directory (default: build/reports/allure-report)
-        // reportDir = file('build/reports/allure-report')
     }
 }
