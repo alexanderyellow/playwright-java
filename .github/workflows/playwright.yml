@@ -52,6 +52,12 @@ jobs:
           ref: gh-pages
           path: gh-pages
 
+      - name: Ensure Required Directories Exist
+        if: always()
+        run: |
+          mkdir -p build/allure-results
+          mkdir -p gh-pages
+
       - name: Build Allure Report
         uses: simple-elf/allure-report-action@master
         if: always()
@@ -68,3 +74,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
+          allow_empty_commit: true
