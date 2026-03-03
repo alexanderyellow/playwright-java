@@ -38,7 +38,7 @@ jobs:
       - name: Upload Playwright Traces
         # 📦 Captures the trace zip files so you can download them directly from the GitHub UI if a test fails
         uses: actions/upload-artifact@v4
-        if: always()
+        if: failure()
         with:
           name: playwright-traces
           path: build/playwright-traces/
