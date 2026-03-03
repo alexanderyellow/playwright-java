@@ -1,0 +1,1 @@
+{"79a41bf917c7a9ee4b6655df0cd545b7":{"statistic":{"failed":0,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":1},"items":[{"uid":"958171d0cb7b09e6","reportUrl":"https://alexanderyellow.github.io/playwright-java/14/#testresult/958171d0cb7b09e6","status":"passed","time":{"start":1772543568396,"stop":1772543573075,"duration":4679}}]}}
