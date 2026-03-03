@@ -44,9 +44,11 @@ jobs:
           path: build/playwright-traces/
           retention-days: 7
 
-      - name: Create gh-pages Directory
+      - name: Prepare gh-pages directory
         if: always()
-        run: mkdir -p gh-pages
+        run: |
+          rm -rf gh-pages || true
+          mkdir -p gh-pages
 
       - name: Load Allure history
         uses: actions/checkout@v4
@@ -60,7 +62,7 @@ jobs:
         if: always()
         run: |
           mkdir -p build/allure-results
-#          mkdir -p gh-pages
+          mkdir -p gh-pages
 
       - name: Build Allure Report
         uses: simple-elf/allure-report-action@master
