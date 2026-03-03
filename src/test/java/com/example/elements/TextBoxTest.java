@@ -23,7 +23,7 @@ public class TextBoxTest extends BaseTest {
                 .submitForm()
                 .softAssert(
                         TextBoxPage.TextBoxPageAssertion::assertOutputIsVisible,
-                        assertion -> assertion.assertOutputName(NAME),
+                        assertion -> assertion.assertOutputName(NAME + "1"),
                         assertion -> assertion.assertOutputEmail(EMAIL),
                         assertion -> assertion.assertOutputCurrentAddress(CURRENT_ADDRESS),
                         assertion -> assertion.assertOutputPermananetAddress(PERMANENT_ADDRESS)

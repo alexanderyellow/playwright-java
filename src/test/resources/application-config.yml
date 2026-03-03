@@ -3,5 +3,5 @@ app:
 
 playwright:
   browser: chromium
-  headless: true
+  headless: false
   slowMo: 500

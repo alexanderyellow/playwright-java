@@ -75,7 +75,6 @@ tasks.register('playwrightInstall', JavaExec) {
     args 'install', '--with-deps'
 }
 
-// REFACTORED: Now uses Gradle's native JavaExec instead of calling Maven externally.
 tasks.register('openLastTrace', JavaExec) {
     group = "verification"
     description = "Opens the most recent Playwright trace file."

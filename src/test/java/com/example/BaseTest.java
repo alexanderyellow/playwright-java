@@ -72,10 +72,7 @@ public abstract class BaseTest {
     @AfterEach
     void closeBrowser() {
         if (page != null) page.close();
-        if (context != null) {
-            context.close();
-            TraceExtension.threadContext.remove();
-        }
+        if (context != null) context.close();
     }
 
     @AfterAll

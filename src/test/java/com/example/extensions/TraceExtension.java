@@ -23,18 +23,12 @@ public class TraceExtension implements TestExecutionExceptionHandler {
         String testName = context.getDisplayName().replaceAll(" ", "_");
         Path tracePath = Paths.get("build/playwright-traces/" + testName + ".zip");
 
-        if (context.getExecutionException().isPresent()) {
-            // Stop and SAVE
-            playwrightContext.tracing().stop(new Tracing.StopOptions().setPath(tracePath));
+        playwrightContext.tracing().stop(new Tracing.StopOptions().setPath(tracePath));
 
-            // ATTACH TO ALLURE
-            try (var is = Files.newInputStream(tracePath)) {
-                Allure.addAttachment("Playwright Trace", "application/zip", is, ".zip");
-            }
-        } else {
-            // Stop and DISCARD
-            playwrightContext.tracing().stop();
+        try (var is = Files.newInputStream(tracePath)) {
+            Allure.addAttachment("Playwright Trace", "application/zip", is, ".zip");
         }
+
         threadContext.remove();
 
         throw throwable;
