@@ -47,8 +47,6 @@ tasks.named('test', Test) {
         delete layout.buildDirectory.dir("playwright-traces")
     }
 
-    ignoreFailures = true
-
     testLogging {
         events "started", "passed", "skipped", "failed"
         exceptionFormat = 'full'
