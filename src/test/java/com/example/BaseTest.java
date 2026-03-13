@@ -30,10 +30,6 @@ public abstract class BaseTest {
     protected BrowserContext context;
     protected Page page;
 
-    public Page getPage() {
-        return page;
-    }
-
     @BeforeAll
     static void launchBrowser() {
         AppConfig config = AppConfigManager.INSTANCE.getConfig();
