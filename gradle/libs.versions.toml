@@ -5,7 +5,9 @@ snakeyaml = "2.6"
 playwright = "1.54.0"
 assertj = "3.27.7"
 allure = "2.33.0"
+allurePlugin = "3.0.2"
 logback = "1.5.32"
+datafaker = "2.5.4"
 
 [libraries]
 # Core utilities
@@ -21,7 +23,17 @@ assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 playwright = { module = "com.microsoft.playwright:playwright", version.ref = "playwright" }
 
 # Reporting
-allure-junit5 = { module = "io.qameta.allure:allure-junit5", version.ref = "allure" }
+allure-bom = { module = "io.qameta.allure:allure-bom", version.ref = "allure" }
+allure-junit5 = { module = "io.qameta.allure:allure-junit5" }
 
 # Logging
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+# Data Faker
+datafaker = { group = "net.datafaker", name = "datafaker", version.ref = "datafaker" }
+
+[bundles]
+allure = ["allure-junit5"]
+
+[plugins]
+allure = { id = "io.qameta.allure", version.ref = "allurePlugin" }

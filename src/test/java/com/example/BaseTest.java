@@ -5,6 +5,7 @@ import com.example.extensions.TraceExtension;
 import com.microsoft.playwright.*;
 import io.qameta.allure.Attachment;
 import io.qameta.allure.junit5.AllureJunit5;
+import net.datafaker.Faker;
 import org.junit.jupiter.api.*;
 import com.example.config.AppConfig;
 import com.example.config.AppConfigManager;
@@ -27,6 +28,8 @@ import java.util.concurrent.TimeUnit;
 )
 @Timeout(value = 30, unit = TimeUnit.SECONDS)
 public abstract class BaseTest {
+    protected final Faker faker = new Faker();
+
     protected static Playwright playwright;
     protected static Browser browser;
     protected BrowserContext context;

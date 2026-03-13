@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'io.qameta.allure' version '3.0.2'
+    alias(libs.plugins.allure)
 }
 
 group = 'com.example'
@@ -11,16 +11,15 @@ repositories {
 }
 
 dependencies {
-    // Assuming this is an end-to-end testing project, dependencies belong in test scopes.
     testImplementation libs.playwright
     testImplementation libs.snakeyaml
-    testImplementation libs.allure.junit5
+    testImplementation platform(libs.allure.bom)
+    testImplementation libs.bundles.allure
     testImplementation libs.assertj.core
+    testImplementation libs.datafaker
 
-    // JUnit API
     testImplementation libs.junit.jupiter.api
 
-    // Runtime-only dependencies (Engines, launchers, and logging shouldn't be on the compile classpath)
     testRuntimeOnly libs.junit.jupiter.engine
     testRuntimeOnly libs.junit.platform.launcher
     testRuntimeOnly libs.logback.classic
@@ -32,13 +31,15 @@ java {
     }
 }
 
+allure {
+    version = libs.versions.allure.get()
+}
+
 tasks.named('test', Test) {
     useJUnitPlatform()
 
-    // Forward the 'headless' system property to the test execution
     systemProperty 'headless', System.getProperty('headless', 'true')
 
-    // Enable JUnit Jupiter parallel execution (Thread-based)
     systemProperty 'junit.jupiter.execution.parallel.enabled', 'true'
     systemProperty 'junit.jupiter.execution.parallel.mode.default', 'concurrent'
     systemProperty 'junit.jupiter.execution.parallel.mode.classes.default', 'concurrent'
@@ -91,21 +92,6 @@ tasks.register('openLastTrace', JavaExec) {
                 .sort { it.lastModified() }
                 .last()
 
-        // Dynamically assign arguments right before execution
         args = ['show-trace', lastTrace.path]
-    }
-}
-
-allure {
-    version = '2.35.0'
-
-    adapter {
-        aspectjWeaver = true
-
-        frameworks {
-            junit5 {
-                enabled = true
-            }
-        }
     }
 }

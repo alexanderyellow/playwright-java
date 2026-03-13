@@ -5,28 +5,27 @@ import org.junit.jupiter.api.Test;
 import com.example.BaseTest;
 
 public class TextBoxTest extends BaseTest {
-
-    private final static String NAME = "John Doe";
-    private final static String EMAIL = "john.doe@example.com";
-    private final static String CURRENT_ADDRESS = "123 Main St";
-    private final static String PERMANENT_ADDRESS = "456 Elm St";
+    String name = faker.name().fullName();
+    String email = faker.internet().emailAddress();
+    String currentAddress = faker.address().fullAddress();
+    String permanentAddress = faker.address().fullAddress();
 
     @Test
     public void testSuccessfulFormSubmission() {
         TextBoxPage textBoxPage = new TextBoxPage(page);
         textBoxPage
                 .navigate()
-                .fillFullName(NAME)
-                .fillEmail(EMAIL)
-                .fillCurrentAddress(CURRENT_ADDRESS)
-                .fillPermanentAddress(PERMANENT_ADDRESS)
+                .fillFullName(name)
+                .fillEmail(email)
+                .fillCurrentAddress(currentAddress)
+                .fillPermanentAddress(permanentAddress)
                 .submitForm()
                 .softAssert(
                         TextBoxPage.TextBoxPageAssertion::assertOutputIsVisible,
-                        assertion -> assertion.assertOutputName(NAME),
-                        assertion -> assertion.assertOutputEmail(EMAIL),
-                        assertion -> assertion.assertOutputCurrentAddress(CURRENT_ADDRESS),
-                        assertion -> assertion.assertOutputPermananetAddress(PERMANENT_ADDRESS)
+                        assertion -> assertion.assertOutputName(name),
+                        assertion -> assertion.assertOutputEmail(email),
+                        assertion -> assertion.assertOutputCurrentAddress(currentAddress),
+                        assertion -> assertion.assertOutputPermananetAddress(permanentAddress)
                 );
     }
 }
