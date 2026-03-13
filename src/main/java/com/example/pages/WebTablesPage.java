@@ -83,7 +83,6 @@ public class WebTablesPage extends BasePage<WebTablesPage, WebTablesPage.WebTabl
     }
 
     private Locator getRowByEmail(String email) {
-        // Preference for getByRole as requested
         return page.getByRole(AriaRole.ROW).filter(new Locator.FilterOptions().setHasText(email));
     }
 
