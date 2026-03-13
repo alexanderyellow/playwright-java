@@ -22,16 +22,17 @@ import java.util.concurrent.TimeUnit;
         })
 )
 @Timeout(value = 30, unit = TimeUnit.SECONDS)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public abstract class BaseTest {
     protected final Faker faker = new Faker();
 
-    protected static Playwright playwright;
-    protected static Browser browser;
+    protected Playwright playwright;
+    protected Browser browser;
     protected BrowserContext context;
     protected Page page;
 
     @BeforeAll
-    static void launchBrowser() {
+    void launchBrowser() {
         AppConfig config = AppConfigManager.INSTANCE.getConfig();
         playwright = com.microsoft.playwright.Playwright.create();
 
@@ -72,7 +73,7 @@ public abstract class BaseTest {
     }
 
     @AfterAll
-    static void closeBrowserAndPlaywright() {
+    void closeBrowserAndPlaywright() {
         if (browser != null) browser.close();
         if (playwright != null) playwright.close();
     }
