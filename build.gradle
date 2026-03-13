@@ -11,14 +11,14 @@ repositories {
 }
 
 dependencies {
-    testImplementation libs.playwright
-    testImplementation libs.snakeyaml
-    testImplementation platform(libs.allure.bom)
-    testImplementation libs.bundles.allure
+    implementation libs.playwright
+    implementation libs.snakeyaml
+    implementation platform(libs.allure.bom)
+    implementation libs.bundles.allure
+    implementation libs.junit.jupiter.api
+
     testImplementation libs.assertj.core
     testImplementation libs.datafaker
-
-    testImplementation libs.junit.jupiter.api
 
     testRuntimeOnly libs.junit.jupiter.engine
     testRuntimeOnly libs.junit.platform.launcher

@@ -1,7 +1,0 @@
-app:
-  url: https://demoqa.com
-
-playwright:
-  browser: chromium
-  headless: true
-  slowMo: 500
