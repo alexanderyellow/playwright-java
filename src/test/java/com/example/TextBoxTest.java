@@ -1,8 +1,7 @@
-package com.example.elements;
+package com.example;
 
 import com.example.pages.TextBoxPage;
 import org.junit.jupiter.api.Test;
-import com.example.BaseTest;
 
 public class TextBoxTest extends BaseTest {
     String name = faker.name().fullName();
@@ -22,7 +21,7 @@ public class TextBoxTest extends BaseTest {
                 .submitForm()
                 .softAssert(
                         TextBoxPage.TextBoxPageAssertion::assertOutputIsVisible,
-                        assertion -> assertion.assertOutputName(name),
+                        assertion -> assertion.assertOutputName(name + 1),
                         assertion -> assertion.assertOutputEmail(email),
                         assertion -> assertion.assertOutputCurrentAddress(currentAddress),
                         assertion -> assertion.assertOutputPermananetAddress(permanentAddress)

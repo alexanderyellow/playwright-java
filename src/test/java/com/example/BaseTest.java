@@ -1,9 +1,8 @@
 package com.example;
 
-import com.example.extensions.AllureTestWatcher;
+import com.example.extensions.AllureExtension;
 import com.example.extensions.TraceExtension;
 import com.microsoft.playwright.*;
-import io.qameta.allure.Attachment;
 import io.qameta.allure.junit5.AllureJunit5;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.*;
@@ -12,17 +11,13 @@ import com.example.config.AppConfigManager;
 import org.junit.jupiter.api.extension.Extensions;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Extensions(
         @ExtendWith({
                 AllureJunit5.class,
-                AllureTestWatcher.class,
+                AllureExtension.class,
                 TraceExtension.class
         })
 )
@@ -70,6 +65,8 @@ public abstract class BaseTest {
         TraceExtension.threadContext.set(context);
 
         page = context.newPage();
+        // Register the page so the Extension can find it
+        AllureExtension.threadPage.set(page);
     }
 
     @AfterEach
@@ -82,25 +79,5 @@ public abstract class BaseTest {
     static void closeBrowserAndPlaywright() {
         if (browser != null) browser.close();
         if (playwright != null) playwright.close();
-    }
-
-    @Attachment(value = "Screenshot on failure", type = "image/png")
-    public byte[] takeScreenshot()  {
-        Path screenshotDir = Paths.get(System.getProperty("user.dir"), "build", "screenshots");
-        try {
-            Files.createDirectories(screenshotDir);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return page.screenshot(
-                new Page.ScreenshotOptions()
-                        .setPath(screenshotDir.resolve("screenshot.png"))
-                        .setFullPage(true)
-        );
-    }
-
-    @Attachment(value = "HTML on failure", type = "text/html")
-    public String takeHtml() {
-        return page.content();
     }
 }
