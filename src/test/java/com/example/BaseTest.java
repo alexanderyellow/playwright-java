@@ -73,13 +73,13 @@ public abstract class BaseTest {
     }
 
     @AfterEach
-    void closeBrowser() {
+    void closePageAndContext() {
         if (page != null) page.close();
         if (context != null) context.close();
     }
 
     @AfterAll
-    static void closePlaywright() {
+    static void closeBrowserAndPlaywright() {
         if (browser != null) browser.close();
         if (playwright != null) playwright.close();
     }
