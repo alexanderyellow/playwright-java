@@ -2,7 +2,7 @@
 
 A robust, scalable automation framework built with **Java 21**, **Playwright**, and **JUnit 5**, designed for end-to-end testing of modern web applications. This framework uses [DemoQA](https://demoqa.com) for demonstration purposes.
 
-## 🚀 Key Features
+## Key Features
 
 - **Page Object Model (POM)**: Clean separation of concerns between test logic and UI elements.
 - **Parallel Execution**: Configured for class-level and method-level concurrency.
@@ -14,7 +14,7 @@ A robust, scalable automation framework built with **Java 21**, **Playwright**, 
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Language**: Java 21
 - **Build Tool**: Gradle
@@ -27,7 +27,7 @@ A robust, scalable automation framework built with **Java 21**, **Playwright**, 
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 - **Java Development Kit (JDK) 21** or higher.
 - **Gradle** (optional, uses `./gradlew` wrapper).
@@ -35,7 +35,7 @@ A robust, scalable automation framework built with **Java 21**, **Playwright**, 
 
 ---
 
-## ⚙️ Getting Started
+## Getting Started
 
 ### 1. Clone the Repository
 ```bash
@@ -51,7 +51,7 @@ Download the required browser binaries (Chromium, Firefox, WebKit):
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 ### Local Execution
 Run all tests in headless mode (default):
@@ -72,7 +72,7 @@ Run all tests in headless mode (default):
 
 ---
 
-## 📊 Reporting & Debugging
+## Reporting & Debugging
 
 ### Allure Report
 Generate and open the Allure report locally:
@@ -90,7 +90,7 @@ Traces are captured automatically for tests. To open the most recent trace for d
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 ├── .github/workflows/       # CI/CD (GitHub Actions)
@@ -111,7 +111,7 @@ Traces are captured automatically for tests. To open the most recent trace for d
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 All framework settings are managed in `src/main/resources/application-config.yml`:
 
@@ -127,7 +127,7 @@ playwright:
 
 ---
 
-## 🔗 CI/CD Pipeline
+## CI/CD Pipeline
 
 The project includes a GitHub Actions workflow (`playwright.yml`) that:
 1.  Triggers on `push` and `pull_request` to `main`/`develop`.

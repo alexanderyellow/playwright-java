@@ -21,7 +21,6 @@ dependencies {
     testImplementation libs.datafaker
 
     testRuntimeOnly libs.junit.jupiter.engine
-    testRuntimeOnly libs.junit.platform.launcher
     testRuntimeOnly libs.logback.classic
 }
 

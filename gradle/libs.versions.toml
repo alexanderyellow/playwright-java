@@ -1,5 +1,4 @@
 [versions]
-# Note: 6.1.0-M1 is an early milestone. For stable parallel execution, consider a stable 5.x.x (e.g., 5.11.4)
 junit = "6.0.3"
 snakeyaml = "2.6"
 playwright = "1.54.0"
@@ -14,7 +13,6 @@ datafaker = "2.5.4"
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
 
 # Testing Framework
-junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 assertj-core = { module = "org.assertj:assertj-core", version.ref = "assertj" }

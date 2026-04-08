@@ -45,7 +45,12 @@ public abstract class BaseTest {
         browser = browserType.launch(new BrowserType.LaunchOptions()
                 .setHeadless(config.getPlaywright().isHeadless())
                 .setSlowMo(config.getPlaywright().getSlowMo())
-                .setArgs(List.of("--start-maximized")));
+                .setArgs(List.of(
+                        "--start-maximized"
+//                        Implement for CI
+//                        "--no-sandbox",
+//                        "--disable-dev-shm-usage"
+                )));
     }
 
     @BeforeEach
